@@ -1,8 +1,26 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { router } from 'expo-router';
+import { router, useNavigation } from 'expo-router';
+import { useEffect } from 'react';
 
 export default function homeScreen() {
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return (
+          <MaterialIcons
+            name='new-label'
+            size={24}
+            color='black'
+            onPress={handleAddLabelPress}
+          />
+        );
+      },
+    });
+  }, []);
+
   const handleAllMemoPress = () => {
     router.push({ pathname: '/memos' });
   };
@@ -22,7 +40,6 @@ export default function homeScreen() {
 
   return (
     <View style={styles.container}>
-      <Button title='ラベル追加' onPress={handleAddLabelPress} />
       <Button title='すべてのメモ' onPress={handleAllMemoPress} />
 
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>

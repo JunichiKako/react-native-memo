@@ -1,8 +1,26 @@
-import { router, useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams, useNavigation } from 'expo-router';
+import { useEffect } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
+import Feather from '@expo/vector-icons/Feather';
 
 export default function MemoListScreen() {
+  const navigation = useNavigation();
   const { labelId } = useLocalSearchParams();
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return (
+          <Feather
+            name='edit'
+            size={24}
+            color='black'
+            onPress={handleCreatePress}
+          />
+        );
+      },
+    });
+  }, []);
 
   const handleCreatePress = () => {
     router.push({ pathname: '/memos/create' });

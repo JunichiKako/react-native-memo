@@ -1,7 +1,18 @@
-import { router } from 'expo-router';
+import { router, useNavigation } from 'expo-router';
+import { useEffect } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 
 export default function MemoCreateScreen() {
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return <Button title='作成' onPress={handleCreatePress} />;
+      },
+    });
+  }, []);
+
   const handleCreatePress = () => {
     router.back();
   };
