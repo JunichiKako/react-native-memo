@@ -1,8 +1,27 @@
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View, ScrollView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router, useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 import LabelListItem from '../../src/components/LabelListItem';
+import { ListItem } from '@rneui/themed';
+
+const LABEL_DATA = [
+  {
+    id: 1,
+    name: 'プログラミング',
+    color: 'blue',
+  },
+  {
+    id: 2,
+    name: 'パスワード',
+    color: 'green',
+  },
+  {
+    id: 3,
+    name: '料理',
+    color: 'orange',
+  },
+];
 
 export default function homeScreen() {
   const navigation = useNavigation();
@@ -41,34 +60,26 @@ export default function homeScreen() {
 
   return (
     <View style={styles.container}>
-      <Button title='すべてのメモ' onPress={handleAllMemoPress} />
+      <ScrollView contentContainerStyle={{ paddingVertical: 40 }}>
+        <ListItem bottomDivider onPress={handleAllMemoPress}>
+          <ListItem.Content>
+            <ListItem.Title>すべてのメモ</ListItem.Title>
+          </ListItem.Content>
+          <ListItem.Chevron />
+        </ListItem>
 
-      <LabelListItem
-        color='blue'
-        name='ラベル１'
-        onPress={() => handleLabelPress(1)}
-        onEditPress={() => handleEditLabelPress(1)}
-      />
+        <Text style={styles.sectionText}>ラベル</Text>
 
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Button title='ラベル１' onPress={() => handleLabelPress(1)} />
-        <MaterialIcons
-          name='edit'
-          size={24}
-          color={'gray'}
-          onPress={() => handleEditLabelPress(1)}
-        />
-      </View>
-
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Button title='ラベル2' onPress={() => handleLabelPress(2)} />
-        <MaterialIcons
-          name='edit'
-          size={24}
-          color={'gray'}
-          onPress={() => handleEditLabelPress(2)}
-        />
-      </View>
+        {LABEL_DATA.map(item => (
+          <LabelListItem
+            key={item.id}
+            color={item.color}
+            name={item.name}
+            onPress={() => handleLabelPress(item.id)}
+            onEditPress={() => handleEditLabelPress(item.id)}
+          />
+        ))}
+      </ScrollView>
     </View>
   );
 }
@@ -77,11 +88,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#eee',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  sectionText: {
+    marginTop: 30,
+    marginBottom: 10,
+    marginLeft: 14,
+    fontSize: 14,
+    color: '#707070',
   },
+
 });
