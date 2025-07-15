@@ -1,5 +1,6 @@
 import { Button, ListItem } from '@rneui/themed';
 import { StyleSheet } from 'react-native';
+import LabelTag from './LabelTag';
 
 type MemoListItemProps = {
   name: string;
@@ -42,6 +43,7 @@ export default function MemoListItem({
         <ListItem.Subtitle style={styles.subTitle} numberOfLines={4}>
           {content}
         </ListItem.Subtitle>
+        {label ? <LabelTag color={label.color} name={label.name} /> : <></>}
       </ListItem.Content>
       <ListItem.Chevron />
     </ListItem.Swipeable>
