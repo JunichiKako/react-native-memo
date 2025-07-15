@@ -1,8 +1,9 @@
 import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect } from 'react';
-import { Button, StyleSheet, Text, View, FlatList } from 'react-native';
+import { Button, StyleSheet, Text, View, FlatList, _View } from 'react-native';
 import Feather from '@expo/vector-icons/Feather';
 import MemoListItem from '../../src/components/MemoListItem';
+import LabelTag from '../../src/components/LabelTag';
 
 const MEMO_DATA = [
   {
@@ -60,11 +61,16 @@ export default function MemoListScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>
-        {labelId ? `ラベルID：${labelId}` : 'すべてのメモ'}
-      </Text>
-
       <FlatList
+        ListHeaderComponent={
+          labelId ? (
+            <View style={{ margin: 10 }}>
+              <LabelTag color='blue' name={`ラベルID：${labelId}`} />
+            </View>
+          ) : (
+            <></>
+          )
+        }
         contentContainerStyle={{ paddingBottom: 100 }}
         data={MEMO_DATA}
         renderItem={({ item }) => (
@@ -74,14 +80,11 @@ export default function MemoListScreen() {
             onPress={() => handleMemoPress(item.id)}
             onDeletePress={() => handleMemoDeletePress(item.id)}
             onLongPress={() => handleMemoLongPress(item.id)}
-            label={undefined}
+            label={item.label}
           />
         )}
         keyExtractor={item => item.id}
       />
-
-      {/* <Button title='メモ作成' onPress={handleCreatePress} />
-      <Button title='メモ2' onPress={() => handleMemoPress('EFGH')} /> */}
     </View>
   );
 }
@@ -90,9 +93,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#eee',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
   },
 });
